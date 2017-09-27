@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+    defaultConfig {
+        applicationId 'com.github.mobile'
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1900
+        versionName '1.9.0'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+    dexOptions {
+        dexInProcess false
+        javaMaxHeapSize = "4g"
+        preDexLibraries = false
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    sourceSets {
+        androidTest.setRoot(project(':integration-tests').projectDir.absolutePath + "/src/main")
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'org.roboguice:roboguice:2.0'
+    compile 'com.github.kevinsawicki:http-request:5.6'
+    compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
+    compile('com.google.inject.extensions:guice-assistedinject:3.0') {
+        exclude group: 'com.google.inject'
+    }
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
+    //Self compiled .aar version of wishlist
+    compile(name: 'lib', ext: 'aar')
+}
